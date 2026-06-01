@@ -1,0 +1,14 @@
+Model: saved_models\mobilenet_pneumonia_model.h5
+Num test samples: 624
+AUC: 0.9475
+Accuracy @0.5: 0.8446
+Precision @0.5: 0.8084
+Recall @0.5: 0.9846
+F1 @0.5: 0.8879
+Best thr (PR F1): 0.9492
+Best F1: 0.9172
+Accuracy @best_thr: 0.8942
+Precision @best_thr: 0.9112
+Recall @best_thr: 0.9205
+ROC curve: outputs\roc_curve.png
+PR curve: outputs\pr_curve.png
