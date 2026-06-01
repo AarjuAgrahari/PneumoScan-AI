@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prediction Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .card {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Prediction Result</h1>
+        <div class="card">
+            <p><strong>Class:</strong> {{ result['class'] }}</p>
+            <p><strong>Confidence:</strong> {{ (result['confidence'] * 100) | round(2) }}%</p>
+            <p><strong>Raw score:</strong> {{ result['raw_prediction'] }}</p>
+            <hr>
+            <h3>Uploaded Image:</h3>
+            <img src="{{ result['image_url'] }}" alt="Uploaded X-ray">
+            <hr>
+            <a href="/">← Back</a>
+        </div>
+    </div>
+</body>
+
+</html>

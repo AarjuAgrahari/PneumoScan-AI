@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NeuroScan - Pneumonia Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .card {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        input[type=file] {
+            margin-top: 1rem;
+        }
+
+        button {
+            margin-top: 1rem;
+            padding: 0.6rem 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>NeuroScan - Pneumonia Detection (Demo)</h1>
+        <div class="card">
+            <p>Upload a chest X-ray image (jpg/png). If a trained model <code>pneumonia_model.h5</code> is present in
+                the project
+                root, the server will use it to predict.</p>
+
+            <p><strong>Model status:</strong>
+                {% if model_loaded %}
+                <span style="color:green;">Loaded</span>
+                {% else %}
+                <span style="color:orange;">Not loaded (mock mode)</span>
+                {% endif %}
+                &nbsp; <a href="/reload">Reload model</a>
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div style="margin-bottom:1rem;color:#b94a48;">
+                {% for message in messages %}
+                <div>{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <form method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept="image/*" required>
+                <br>
+                <button type="submit">Upload & Predict</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
