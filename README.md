@@ -130,38 +130,8 @@ Open the displayed URL (usually http://localhost:8501) in a browser, upload a ch
 ---
 
 ## 🙋 Author & Contact
-**Aarju** – AI/ML Engineer
-- GitHub: https://github.com/aarju
-- Email: aarju@example.com
+**Aarju** – AI/ML Engineer Enthusiast
 
----
-
-*This repository is licensed under the MIT License. Contributions are welcome!*
-
-PneumoScan AI is a professional, research‑oriented chest X‑ray pneumonia detection system that merges state‑of‑the‑art deep learning with explainable AI (Grad‑CAM) and a modern dark futuristic web dashboard built in Streamlit. 
-
-This repository is designed to be **beginner-friendly** yet structured like a **production-level medical AI application**.
-
----
-
-## 📋 Project Directory Structure
-
-```
-PneumoScan/
-├── app.py              # Main Streamlit Dashboard (Futuristic UI, Upload, Predict, Registry)
-├── train.py            # Executable script for training and evaluating models
-├── model.py            # Deep Learning architectures (Custom CNN & MobileNetV2 Transfer Learning)
-├── utils.py            # Image preprocessing, log registry, and dynamic Grad-CAM visualizer
-├── data.py             # DataLoader class for reading & augmenting dataset
-├── config.py           # Centralized configuration variables (image size, hyper-parameters)
-├── requirements.txt    # Library dependencies and compatible versions
-├── README.md           # This comprehensive clinical & technical walkthrough
-├── saved_models/       # Folder to store the trained model binaries (.h5)
-├── assets/             # Place for dashboard images and UI resources
-└── outputs/            # Folder for saved plots (confusion matrix, loss curves, logs)
-```
-
----
 
 ## ⚡ Key Features
 
