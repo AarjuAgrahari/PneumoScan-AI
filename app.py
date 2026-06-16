@@ -1,6 +1,6 @@
 """
-NeuroScan AI - Intelligent Chest X-Ray Pneumonia Diagnostic Portal.
-A modern, clinical-grade Streamlit dashboard featuring deep learning binary classification,
+PneumoScan AI - Intelligent Chest X-Ray Pneumonia Diagnostic Portal.
+An educational, research-oriented Streamlit dashboard featuring deep learning binary classification,
 real-time Grad-CAM explainable AI heatmaps, historic scan analytics, and a performance registry.
 """
 
@@ -9,29 +9,45 @@ import time
 import numpy as np
 import pandas as pd
 import streamlit as st
+import base64
+def add_bg():
+    with open("assets/background.jpg", "rb") as f:
+        encoded = base64.b64encode(f.read()).decode()
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image:
+            linear-gradient(
+                rgba(5,10,20,0.88),
+                rgba(5,10,20,0.88)
+            ),
+            url("data:image/jpg;base64,{encoded}");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 from PIL import Image
 
-try:
-    # Running from project root (e.g. `streamlit run NeuroScan/app.py`)
-    from NeuroScan import config, utils
-except ImportError:
-    try:
-        # Running inside package context or tests
-        from . import config, utils
-    except ImportError:
-        # Last resort: plain import when root module path includes NeuroScan
-        import config
-        import utils
+import config
+import utils
 
 # =====================================================================
 # 1. PAGE CONFIGURATION & THEME STYLING
 # =====================================================================
 st.set_page_config(
-    page_title="NeuroScan AI - Pneumonia Diagnosis Suite",
+    page_title="PneumoScan AI - Pneumonia Diagnosis Suite",
     page_icon="🩺",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+add_bg()
 
 # Custom styling to inject the dark futuristic healthcare UI theme
 st.markdown(
@@ -262,14 +278,14 @@ class MockModel:
 # 3. SIDEBAR NAVIGATION & LAYOUT
 # =====================================================================
 with st.sidebar:
-    st.markdown("<h2 style='color:#00C2FF; margin-bottom:5px;'>🩺 NeuroScan AI</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='color:#94A3B8; font-size:13px; margin-bottom:20px;'>Clinical Imaging Analytics Portal</p>", unsafe_allow_html=True)
+    st.markdown("<h2 style='color:#00C2FF; margin-bottom:5px;'>🩺 PneumoScan AI</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#94A3B8; font-size:13px; margin-bottom:20px;'>Research‑oriented Imaging Analytics Portal</p>", unsafe_allow_html=True)
     st.markdown("---")
     
     # Navigation Tabs
     nav_option = st.radio(
         "Navigation Portal",
-        ["🔍 Diagnose & Scan", "📊 History & Analytics", "⚙️ Model Benchmarks", "📖 Clinical Reference"],
+        ["🩺 Scan & Analyze", "📈 Prediction History"],
         index=0
     )
     
@@ -311,17 +327,25 @@ with st.sidebar:
         
     st.markdown("---")
     st.markdown("### 📋 System Metrics")
-    st.metric(label="Input Resolution", value="224x224x3", delta=None)
-    st.metric(label="Target Classes", value="NORMAL / PNEUMONIA", delta=None)
-    st.metric(label="Inference Mode", value="CPU", delta=None)
+    st.metric(label="Image Analysis Engine", value="MobileNetV2 Transfer Learning", delta=None)
+    st.metric(label="Detection Categories", value="Healthy Lung / Pneumonia", delta=None)
+    st.metric(label="Deployment Status", value="Ready for Prediction", delta=None)
     st.markdown("<p style='color:#94A3B8; font-size:13px; margin-top:12px;'>Streamlit interface is optimized for interactive model evaluation and explainability.</p>", unsafe_allow_html=True)
 
 # =====================================================================
 # 4. TAB 1: SCAN & DIAGNOSE (MAIN PORTAL)
 # =====================================================================
-if nav_option == "🔍 Diagnose & Scan":
-    st.markdown("<h1 class='main-title'>🩺 PNEUMONIA SCAN PORTAL</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='sub-title'>Execute high-resolution deep-learning diagnostics and retrieve spatial heatmaps of radiological infiltration.</p>", unsafe_allow_html=True)
+if nav_option == "🩺 Scan & Analyze":
+    st.markdown("<h1 class='main-title'>🩺 PneumoScan AI</h1>", unsafe_allow_html=True)
+    st.markdown("""
+    <p class='sub-title'>AI-powered Chest X-Ray Analysis Platform</p>
+    <ul style='color:#94A3B8; font-size:14px;'>
+        <li>✅ Pneumonia Detection</li>
+        <li>✅ Confidence Score</li>
+        <li>✅ Explainable AI Visualization (Grad‑CAM)</li>
+    </ul>
+    """,
+    unsafe_allow_html=True)
     
     # Layout Grid: Upload Area & Diagnosis Panel
     col1, col2 = st.columns([1, 1])
@@ -347,7 +371,7 @@ if nav_option == "🔍 Diagnose & Scan":
             st.image(img, caption="Uploaded Thoracic Radiograph (X-Ray)", use_column_width=True)
             
             # Save temporary file locally to process it with utilities
-            temp_path = "temp_xray_scan.jpg"
+            temp_path = (config.OUTPUT_DIR / "temp_xray_scan.jpg").as_posix()
             img.save(temp_path)
             
     with col2:
@@ -457,24 +481,24 @@ if nav_option == "🔍 Diagnose & Scan":
 
                 result_col1, result_col2 = st.columns([1.1, 1])
                 with result_col1:
-                    if res['class'] == 'NORMAL':
-                        st.markdown(
-                            f"""
-                            <div class='indicator-normal'>
-                                DIAGNOSIS: {res['class']}
-                            </div>
-                            """,
-                            unsafe_allow_html=True
-                        )
-                    else:
-                        st.markdown(
-                            f"""
-                            <div class='indicator-pneumonia'>
-                                DIAGNOSIS: {res['class']}
-                            </div>
-                            """,
-                            unsafe_allow_html=True
-                        )
+                    # AI Assessment
+                    st.markdown("### AI Assessment", unsafe_allow_html=True)
+                    st.markdown(
+                        f"""
+                        <div class='indicator-{'normal' if res['class'] == 'NORMAL' else 'pneumonia'}'>
+                            Condition Detected: {res['class']}
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
+                    st.metric(label="Confidence", value=f"{res['confidence']:.2%}")
+                    st.markdown(
+                        """
+                        **Disclaimer:**
+                        This result is generated by an AI model for *educational and research* purposes only.
+                        """,
+                        unsafe_allow_html=True
+                    )
 
                     metric_col1, metric_col2 = st.columns(2)
                     metric_col1.metric(label="Confidence", value=f"{res['confidence']:.2%}")
@@ -532,7 +556,7 @@ if nav_option == "🔍 Diagnose & Scan":
 # =====================================================================
 # 5. TAB 2: HISTORY & ANALYTICS
 # =====================================================================
-elif nav_option == "📊 History & Analytics":
+elif nav_option == "📈 Prediction History":
     st.markdown("<h1 class='main-title'>📊 SCAN REGISTRY & ANALYTICS</h1>", unsafe_allow_html=True)
     st.markdown("<p class='sub-title'>Review historical prediction logs, filter database entries, and monitor clinical diagnostics trends.</p>", unsafe_allow_html=True)
     
@@ -625,7 +649,7 @@ elif nav_option == "📊 History & Analytics":
 # =====================================================================
 # 6. TAB 3: MODEL BENCHMARKS
 # =====================================================================
-elif nav_option == "⚙️ Model Benchmarks":
+if False:  # Model Benchmarks tab disabled
     st.markdown("<h1 class='main-title'>⚙️ ARCHITECTURE & PERFORMANCE BENCHMARKS</h1>", unsafe_allow_html=True)
     st.markdown("<p class='sub-title'>Compare Deep Convolutional models and inspect saved training charts.</p>", unsafe_allow_html=True)
     
@@ -634,7 +658,7 @@ elif nav_option == "⚙️ Model Benchmarks":
     with tab_comp:
         st.markdown("### 🔬 Model Features and Parameter Comparison")
         st.write(
-            "Below is a direct comparison of the two neural network structures implemented within NeuroScan AI."
+            "Below is a direct comparison of the two neural network structures implemented within PneumoScan AI."
         )
         
         benchmark_data = {
@@ -718,7 +742,7 @@ elif nav_option == "⚙️ Model Benchmarks":
 # =====================================================================
 # 7. TAB 4: CLINICAL REFERENCE GUIDE
 # =====================================================================
-elif nav_option == "📖 Clinical Reference":
+if False:  # Clinical Reference tab disabled
     st.markdown("<h1 class='main-title'>📖 CLINICAL REFERENCE & EDUCATION</h1>", unsafe_allow_html=True)
     st.markdown("<p class='sub-title'>Review anatomical references, radiological markers, and clinical guides for lung pathology interpretation.</p>", unsafe_allow_html=True)
     
@@ -755,8 +779,8 @@ elif nav_option == "📖 Clinical Reference":
 st.markdown(
     """
     <div class='neuro-footer'>
-        🔬 <strong>NeuroScan AI</strong> — Powered by Python, TensorFlow 2.x, and Streamlit.<br>
-        Developed for clinical pairing and AI educational walkthroughs. Medical diagnostic decisions should always be validated by certified radiologists.
+        🔬 <strong>PneumoScan AI</strong> — Powered by Python, TensorFlow 2.x, and Streamlit.<br>
+        Developed for educational and research demonstrations. Medical diagnostic decisions should always be validated by certified radiologists.
     </div>
     """,
     unsafe_allow_html=True

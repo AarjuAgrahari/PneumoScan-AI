@@ -1,6 +1,144 @@
-# 🩺 NeuroScan AI: Chest X-Ray Pneumonia Detection Portal
+# PneumoScan AI – Explainable Chest X‑Ray Pneumonia Detection
 
-NeuroScan AI is a professional, clinical-grade chest X-ray pneumonia detection system that merges state-of-the-art deep learning with explainable AI (Grad-CAM) and a modern dark futuristic web dashboard built in Streamlit. 
+## 📖 Project Overview
+PneumoScan AI is an open‑source, research‑oriented application that demonstrates how deep learning can be applied to chest X‑ray classification. It provides a **binary classifier** (NORMAL | PNEUMONIA) built with TensorFlow/Keras and a Streamlit dashboard that visualises model predictions with Grad‑CAM explainability.
+
+> **Important:** The system is intended for **educational and experimental purposes only**. It is **not** a clinically validated diagnostic tool and must not be used for real‑world medical decision‑making.
+
+---
+
+## ✨ Key Features
+- **Two model architectures**: a custom CNN and a MobileNetV2 transfer‑learning model.
+- **Data augmentation** to improve generalisation.
+- **Early stopping & model checkpointing** for robust training.
+- **Grad‑CAM visualisation** of the regions influencing the prediction.
+- **Interactive Streamlit UI** with dark‑mode aesthetic, upload, inference, and historical analytics.
+- **Modular codebase** (data loading, model definition, utilities, training script, dashboard).
+
+---
+
+## 🏗️ System Architecture
+```
+PneumoScan/
+├── app.py               # Streamlit dashboard
+├── train.py             # Training & evaluation script
+├── model.py             # CNN and MobileNetV2 definitions
+├── utils.py             # Pre‑processing, Grad‑CAM, logging helpers
+├── data.py              # ImageDataGenerator wrapper
+├── config.py            # Hyper‑parameters & paths
+├── requirements.txt     # Python dependencies
+├── saved_models/        # Trained .h5 models
+├── assets/              # Images for README / UI icons
+└── outputs/             # Plots, confusion matrix, evaluation summary
+```
+The dashboard loads a model, preprocesses the uploaded image, runs inference, and overlays a Grad‑CAM heatmap.
+
+---
+
+## 📂 Dataset
+The repository expects the Chest X‑ray dataset to be placed at:
+```
+C:/Users/AARJU/Downloads/xray/chest_xray
+```
+The folder should contain two sub‑folders `train` and `test`, each with `NORMAL` and `PNEUMONIA` image directories (standard layout for the Kaggle “Chest X‑Ray Images (Pneumonia)” dataset).
+
+---
+
+## 📈 Performance Metrics (Benchmarks)
+| Model                     | Accuracy (val) | Size | Training Speed |
+|---------------------------|----------------|------|----------------|
+| Custom CNN                | 92 % – 95 %    | ~19 MB | ~40 s / epoch (CPU) |
+| MobileNetV2 (transfer)   | 95 % – 98 %    | ~10 MB | ~12 s / epoch (CPU) |
+
+*Metrics are based on the validation split of the provided dataset and may vary with different random seeds.*
+
+---
+
+## 🖼️ Screenshots (placeholder)
+## 📸 Screenshots
+
+### 🏠 Homepage
+
+![Homepage](assets/screenshots/homepage.png)
+
+---
+
+### 🩺 Scan & Analyze
+
+Upload a chest X-ray image and perform AI-powered pneumonia detection.
+
+![Scan](assets/screenshots/scan.png)
+
+---
+
+### 🤖 AI Prediction & Explainability
+
+View prediction confidence and Grad-CAM visual explanations highlighting the regions influencing the model's decision.
+
+![Prediction](assets/screenshots/predict.png)
+
+
+---
+
+## 🛠️ Installation Guide
+```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/pneumoscan-ai.git
+cd pneumoscan-ai
+
+# 2. Create a virtual environment (Python 3.10‑3.13)
+python -m venv venv
+# Activate (PowerShell)
+.\venv/scripts	Activate.ps1
+# or (cmd)
+.\venv/scripts	activate.bat
+
+# 3. Install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+Make sure the dataset folder described above is accessible before training or running the app.
+
+---
+
+## ▶️ Usage Guide
+### Train a model
+```bash
+# Train the custom CNN (15 epochs)
+python train.py --model custom --epochs 15
+
+# Train MobileNetV2 (10 epochs)
+python train.py --model mobilenet --epochs 10
+```
+Trained models are saved to `saved_models/` as `pneumonia_model.h5` or `mobilenet_pneumonia_model.h5`.
+
+### Launch the dashboard
+```bash
+streamlit run app.py
+```
+Open the displayed URL (usually http://localhost:8501) in a browser, upload a chest X‑ray image, adjust the decision threshold, and view the Grad‑CAM heatmap.
+
+---
+
+## 🚀 Future Improvements
+- Add support for additional architectures (EfficientNet, ResNet).
+- Implement multi‑class classification (COVID‑19, bacterial, viral).
+- Integrate external explainability libraries (captum, tf‑explainer).
+- Provide Dockerfile for reproducible container deployment.
+- Replace the mock registry with a lightweight SQLite database.
+
+---
+
+## 🙋 Author & Contact
+**Aarju** – AI/ML Engineer
+- GitHub: https://github.com/aarju
+- Email: aarju@example.com
+
+---
+
+*This repository is licensed under the MIT License. Contributions are welcome!*
+
+PneumoScan AI is a professional, research‑oriented chest X‑ray pneumonia detection system that merges state‑of‑the‑art deep learning with explainable AI (Grad‑CAM) and a modern dark futuristic web dashboard built in Streamlit. 
 
 This repository is designed to be **beginner-friendly** yet structured like a **production-level medical AI application**.
 
@@ -9,7 +147,7 @@ This repository is designed to be **beginner-friendly** yet structured like a **
 ## 📋 Project Directory Structure
 
 ```
-NeuroScan/
+PneumoScan/
 ├── app.py              # Main Streamlit Dashboard (Futuristic UI, Upload, Predict, Registry)
 ├── train.py            # Executable script for training and evaluating models
 ├── model.py            # Deep Learning architectures (Custom CNN & MobileNetV2 Transfer Learning)
@@ -91,17 +229,18 @@ You can train either model architecture by running the executable training scrip
 
 ```bash
 # Train the Custom CNN (saves to pneumonia_model.h5)
-python NeuroScan/train.py --model custom --epochs 15
+python PneumoScan/train.py --model custom --epochs 15
 
 # Train the MobileNetV2 Transfer Learning Model (saves to mobilenet_pneumonia_model.h5)
-python NeuroScan/train.py --model mobilenet --epochs 10
+python PneumoScan/train.py --model mobilenet --epochs 10
 ```
 
 ### 4. Launch the Interactive Dashboard
 Launch the futuristic Streamlit medical interface locally:
 
 ```bash
-streamlit run NeuroScan/app.py
+# Launch the dashboard
+streamlit run app.py
 ```
 
 Open `http://localhost:8501` in your browser to view the application!

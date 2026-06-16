@@ -1,0 +1,11 @@
+venv/
+**pycache**/
+*.pyc
+
+saved_models/
+outputs/
+
+*.h5
+
+.DS_Store
+Thumbs.db

@@ -6,7 +6,17 @@ Modify these settings to customize the training process.
 # ============================================
 # DATASET CONFIGURATION
 # ============================================
-DATASET_PATH = r"C:\Users\AARJU\Downloads\xray\chest_xray"
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
+DATASET_PATH = BASE_DIR / "data" / "chest_xray"
+
+MODEL_DIR = BASE_DIR / "saved_models"
+
+OUTPUT_DIR = BASE_DIR / "outputs"
+
+ASSETS_DIR = BASE_DIR / "assets"
 
 # ============================================
 # IMAGE PREPROCESSING
